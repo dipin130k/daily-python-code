@@ -1,38 +1,31 @@
-name: Daily Python Code
+name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 12 * * *'   # every day at 12:00 UTC
-  workflow_dispatch:        # allows manual runs
+    # Run every day at 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch:
 
 jobs:
-  generate-and-commit:
+  daily-commit:
     runs-on: ubuntu-latest
+
+    # Add this permissions block
     permissions:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+    - name: Configure Git
+      run: |
+        git config user.name "dipin130k"
+        git config user.email "garena746130@gmail.com"
 
-      - name: Generate today’s code
-        run: |
-          python scripts/generate_daily_code.py
-
-      - name: Commit and push
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git add daily_code/ scripts/ README.md
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-          TODAY=$(date +'%Y-%m-%d')
-          git commit -m "✨ Daily Python code: ${TODAY}"
-          git push
+    - name: Make daily commit
+      run: |
+        echo "Daily commit on $(date)" >> log.txt
+        git add log.txt
+        git commit -m "Daily commit: $(date)" || echo "No changes to commit"
+        git push
