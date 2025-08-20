@@ -17,3 +17,4 @@ This repo auto-creates a fresh Python snippet every day and commits it via GitHu
 - 2025-08-17: Added `daily_code/2025-08-17.py`
 - 2025-08-18: Added `daily_code/2025-08-18.py`
 - 2025-08-19: Added `daily_code/2025-08-19.py`
+- 2025-08-20: Added `daily_code/2025-08-20.py`
